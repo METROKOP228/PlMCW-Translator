@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCW Translator</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="icon" href="img/logo.svg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/mode/simple.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/dracula.min.css">
+</head>
+<body>
+    <div id="cookie-banner">
+    	<div>We are using LocalStorage to improve you experience on this website (Later, you can change your choice in settings)</div>
+        <button id="agree-btn">Agree</button>
+        <button id="disagree-btn">Deny</button>
+    </div>
+    <div id="loading-screen">
+    	Loading…
+    	<span>Please wait, until the necessary resources are loaded</span>
+    	<progress id="progress-bar" value="0" max="40"> 0% </progress>
+    </div>
+    <header class="header">
+        <a href="https://minewiki.pl" class="button">
+        	<svg class="header-img" width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><polygon points="100,85 175,50 175,95 100,130" fill="#00428B" /><polygon points="100,10 175,50 100,85 100,130 25,95 25,50" fill="#0261CA" /><polygon points="100,130 175,95 175,140 100,180" fill="#B39700" /><polygon points="100,130 25,95 25,140 100,180" fill="#FFD700" /><polygon points="100,10 175,50 175,140 100,180 25,140 25,50" fill="transparent" stroke="black" stroke-width="10" class="svg-wiki" /><line x1="25" y1="50" x2="100" y2="85" stroke="black" stroke-width="10" class="svg-wiki" /><line x1="175" y1="50" x2="100" y2="85" stroke="black" stroke-width="10" class="svg-wiki" /><line x1="25" y1="95" x2="100" y2="130" stroke="black" stroke-width="10" class="svg-wiki" /><line x1="175" y1="95" x2="100" y2="130" stroke="black" stroke-width="10" class="svg-wiki" /><line  x1="100" y1="85" x2="100" y2="180" stroke="black" stroke-width="10" class="svg-wiki" /></svg>
+			Go to Minecraft Wiki
+		</a>
+        <a href="https://discord.gg/9ZCcTnT" class="svg-parent button">
+        <svg class="header-img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 71 55" fill="none" width="71" height="55"><path class="svg" d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.440769 45.4204 0.525289C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.525289C25.5141 0.443589 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C6.45866 50.0174 12.3413 52.7249 18.1147 54.5195C18.2071 54.5477 18.305 54.5139 18.3638 54.4378C19.7295 52.5728 20.9469 50.6063 21.9907 48.5383C22.0523 48.4172 21.9935 48.2735 21.8676 48.2256C19.9366 47.4931 18.0979 46.6 16.3292 45.5858C16.1893 45.5041 16.1781 45.304 16.3068 45.2082C16.679 44.9293 17.0513 44.6391 17.4067 44.3461C17.471 44.2926 17.5606 44.2813 17.6362 44.3151C29.2558 49.6202 41.8354 49.6202 53.3179 44.3151C53.3935 44.2785 53.4831 44.2898 53.5502 44.3433C53.9057 44.6363 54.2779 44.9293 54.6529 45.2082C54.7816 45.304 54.7732 45.5041 54.6333 45.5858C52.8646 46.6197 51.0259 47.4931 49.0921 48.2228C48.9662 48.2707 48.9102 48.4172 48.9718 48.5383C50.038 50.6034 51.2554 52.5699 52.5959 54.435C52.6519 54.5139 52.7526 54.5477 52.845 54.5195C58.6464 52.7249 64.529 50.0174 70.6019 45.5576C70.6551 45.5182 70.6887 45.459 70.6943 45.3942C72.1747 30.0791 68.2147 16.7757 60.1968 4.9823C60.1772 4.9429 60.1437 4.9147 60.1045 4.8978ZM23.7259 37.3253C20.2276 37.3253 17.3451 34.1136 17.3451 30.1693C17.3451 26.225 20.1717 23.0133 23.7259 23.0133C27.308 23.0133 30.1626 26.2532 30.1066 30.1693C30.1066 34.1136 27.28 37.3253 23.7259 37.3253ZM47.3178 37.3253C43.8196 37.3253 40.9371 34.1136 40.9371 30.1693C40.9371 26.225 43.7636 23.0133 47.3178 23.0133C50.9 23.0133 53.7545 26.2532 53.6986 30.1693C53.6986 34.1136 50.9 37.3253 47.3178 37.3253Z" /></svg>
+    	Minecraft Wiki Discord</a>
+        <a href="https://t.me/Yuriioptg" class="button">Report a bug</a>
+        <button class="settings-button toggle-button" onclick="toggleMenu()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-.19a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2v-1a2 2 0 0 1 2-2h.19a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.06a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v.19a1.65 1.65 0 0 0 1 1.51h.06a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.06a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-.19a1.65 1.65 0 0 0-1.51 1z"></path></svg></button>
+    </header>
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+    <div class="settings-menu" id="settingsMenu">
+    	<h1>SETTINGS</h1>
+	    <h2>Theme</h2>
+	    <label for="bg-color">Color of background/button text:</label>
+	    <input type="color" id="bg-color" name="bg-color" value="#0000FF" onchange="presetChoice()">
+	    <br><br>
+	    <label for="text-color">Color of text/button background:</label>
+	    <input type="color" id="text-color" name="text-color" value="#FFFF00" onchange="presetChoice()">
+	    <br><br>
+	    <label for="btn-hover-bg-color">Color of button hover background:</label>
+	    <input type="color" id="btn-hover-bg-color" name="btn-hover-bg-color" value="#A69D00" onchange="presetChoice()">
+	    <br><br>
+	    <label for="btn-hover-text-color">Color of button hover text:</label>
+	    <input type="color" id="btn-hover-text-color" name="btn-hover-text-color" value="#FFFFFF" onchange="presetChoice()">
+	    <br><br>
+	    <label for="link-color">Color of links:</label>
+	    <input type="color" id="link-color" name="link-color" value="#FF0000" onchange="presetChoice()">
+	    <br><br>
+	    <label for="link-hover-color">Color of links on hover:</label>
+	    <input type="color" id="link-hover-color" name="link-hover-color" value="#A60000" onchange="presetChoice()">
+	    <br><br>
+	    <span>Theme of textareas:</span>
+	    <br>
+	    <button class="textareas-color-button" onclick="setTheme('default')">Default (Light)</button>
+	    <button class="textareas-color-button" onclick="setTheme('dracula')">Dracula (Dark)</button>
+	    <button class="reset-btn" onclick="presetChoice('#0000FF', '#FFFF00', '#A69D00', '#FFFFFF', '#FF0000', '#A60000'); setTheme('default');">Reset</button>
+	    <h3>Templates</h3>
+	    <button class="pers-presets-button" onclick="presetChoice('#b8b8ff', '#ffffff', '#9e9eff', '#ffffff', '#ffa8a8', '#e66b6b'); setTheme('default');">Light mode</button>
+	    <button class="pers-presets-button" onclick="presetChoice('#000033', '#0040ff', '#20367e', '#ffffff', '#00ffe1', '#ffffff'); setTheme('dracula');">Dark mode</button>
+	    <button class="pers-presets-button" onclick="presetChoice('#000000', '#bababa', '#808080', '#bababa', '#737373', '#404040'); setTheme('dracula');">Darker mode</button>
+	    <h2>LocalStorage</h2>
+	    Save data in localStorage?<br><input type="checkbox" class="settings-checkbox" id="cookies-checkbox">
+		<div id="local-storage-req">
+		    <h2>Other</h2>
+		    Load Java versions: <select name="choice-load-java" id="choice-load-java">
+				<option value="all">all</option>
+				<option value="major">major</option>
+				<option value="last">only last</option>
+			</select> <span class="link-text">*</span><br>
+			<i><small>Speeds up page loading</small></i>
+
+			<br><br>Show loading screen? <span class="link-text">*</span><br><input type="checkbox" class="settings-checkbox" id="loading-screen-checkbox" checked>
+
+
+			<p class="link-text">* — Requires page reload</p>
+		</div>
+  	</div>
+  	<main class="content-container">
+	    <div class="tab-buttons">
+	        <!--<button id="mc-tmp" class="tab-btn tab-btn-active" onclick="openTab('tab1', 'mc-tmp')">
+	        	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="30" height="30"><rect x="12" y="8" width="40" height="48" rx="4" ry="4" fill="none" stroke="#000" stroke-width="3"/><line x1="16" y1="16" x2="48" y2="16" stroke="#000" stroke-width="3"/><line x1="16" y1="24" x2="48" y2="24" stroke="#000" stroke-width="3"/><line x1="16" y1="32" x2="40" y2="32" stroke="#000" stroke-width="3"/><path d="M32 48 L48 32 L40 24 L24 40 Z" fill="none" stroke="#000" stroke-width="3"/><line x1="36" y1="36" x2="40" y2="40" stroke="#000" stroke-width="3"/></svg>
+	        	<span>Templates Translator</span>
+	        </button>-->
+	        <button id="mc-name" class="tab-btn tab-btn-active" onclick="openTab('tab2', 'mc-name')">
+	        	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="30" height="30"><path d="M12 16 H52 V48 H12 Z" fill="none" stroke="#000" stroke-width="3"/><line x1="12" y1="32" x2="52" y2="32" stroke="#000" stroke-width="3"/><rect x="12" y="8" width="40" height="48" rx="4" ry="4" fill="none" stroke="#000" stroke-width="3"/><line x1="16" y1="20" x2="48" y2="20" stroke="#000" stroke-width="3"/><line x1="16" y1="28" x2="48" y2="28" stroke="#000" stroke-width="3"/><line x1="16" y1="44" x2="48" y2="44" stroke="#000" stroke-width="3"/></svg>
+	        	<span>In-Game names translator</span>
+	    	</button>
+	        <button id="mc-name-search" class="tab-btn" onclick="openTab('tab3', 'mc-name-search')">
+	        	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="30" height="30"><rect x="10" y="20" width="30" height="24" fill="none" stroke="#000" stroke-width="3"/><line x1="14" y1="26" x2="34" y2="26" stroke="#000" stroke-width="3"/><line x1="14" y1="34" x2="34" y2="34" stroke="#000" stroke-width="3"/><circle cx="46" cy="34" r="8" fill="none" stroke="#000" stroke-width="3"/><line x1="50" y1="38" x2="56" y2="44" stroke="#000" stroke-width="3"/></svg>
+				<span>In-Game names search</span>
+	    	</button>
+	        <button id="mc-name-compare" class="tab-btn" onclick="openTab('tab4', 'mc-name-compare')">
+	        	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="30" height="30"><rect x="8" y="12" width="22" height="40" fill="none" stroke="#000" stroke-width="3"/><rect x="34" y="12" width="22" height="40" fill="none" stroke="#000" stroke-width="3"/><line x1="14" y1="20" x2="26" y2="20" stroke="#000" stroke-width="3"/><line x1="40" y1="20" x2="52" y2="20" stroke="#000" stroke-width="3"/><line x1="18" y1="28" x2="22" y2="28" stroke="#000" stroke-width="3"/><line x1="42" y1="28" x2="46" y2="28" stroke="#000" stroke-width="3"/><polyline points="30,28 36,32 30,36" fill="none" stroke="#000" stroke-width="3"/></svg>
+	        	<span>Language files comparing</span>
+	        </button>
+
+	        <!--<button id="thanks-tab" class="tab-btn tab-btn-right" onclick="openTab('tab5', 'thanks-tab')">
+	        	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30" stroke="red" fill="none" stroke-width="3"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
+	        </button>-->
+	    </div>
+	    <div class="non-btn-content">
+
+
+		    <!-- ПЕРЕКЛАД ШАБЛОНІВ -->
+
+
+		    <!-- AINT SUPPORTED YET
+
+
+		    <div class="template-selection-container tab tab-content" id="tab1" style="display: flex;">
+		    	<div class="template-selection">
+		    		<h1>Переклад вікі</h1>
+		    		<h2>Переклад шаблонів</h2>
+			        <form class="templates-form">
+			        	<p>Виберіть шаблон:</p>
+			            <input type="radio" class="radio" id="auto" name="templates" value="Автоматично" checked>
+			            <label for="auto">Автоматично</label>
+			            <br>
+			            <input type="radio" class="radio" id="id" name="templates" value="ID таблиця">
+			            <label for="id">ID таблиця (ID table)</label>
+				        <br>
+			            <input type="radio" class="radio" id="sound" name="templates" value="Звукова таблиця">
+			            <label for="sound">Звукова таблиця (Sound table)</label>
+			            <br>
+			            <input type="radio" class="radio" id="vn" name="templates" value="Версія навігація">
+			            <label for="vn">Версія навігація (Infobox version)</label>
+			            <br>
+			            <input type="radio" class="radio" id="entity" name="templates" value="Сутність">
+			            <label for="entity">Сутність (Infobox entity)</label>
+			            <br>
+			            <input type="radio" class="radio" id="block" name="templates" value="Блок">
+			            <label for="block">Блок (Infobox block)</label>
+			            <br>
+			            <input type="radio" class="radio" id="drops" name="templates" value="Таблиця дропу">
+			            <label for="drops">Таблиця дропу (DropsTable)</label>
+			            <br>
+			            <input type="radio" class="radio" id="historyTable" name="templates" value="ТаблицяІсторії">
+			            <label for="historyTable">ТаблицяІсторії (HistoryTable)</label>
+			            <br>
+			            <input type="radio" class="radio" id="looming" name="templates" value="Ткацтво">
+			            <label for="looming">Ткацтво (Looming)</label>
+			            <br>
+			            <input type="radio" class="radio" id="biome" name="templates" value="Біом">
+			            <label for="biome">Біом (Infobox biome)</label>
+			            <br>
+			            <input type="radio" class="radio" id="spawnTable" name="templates" value="Таблиця появи">
+			            <label for="spawnTable">Таблиця появи (Spawn table)</label>
+			            <br>
+			            <input type="radio" class="radio" id="item" name="templates" value="Предмет">
+			            <label for="item">Предмет (Infobox item)</label>
+			            <br>
+			            <input type="radio" class="radio" id="itemEntity" name="templates" value="Предмет-сутність">
+			            <label for="itemEntity">Предмет-сутність (Infobox item entity)</label>
+			        </form>
+		    	</div>
+				<div class="container">
+			        <textarea id="textareaInput" class="input"></textarea>
+			        <div class="buttons-tr">
+			        	<button class="button-clear" onclick="getLink(1);"><svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet"><g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none"><path d="M3882 5106 c-158 -31 -296 -84 -416 -163 -50 -33 -195 -170 -499 -472 -396 -395 -429 -430 -443 -476 -30 -102 13 -202 107 -249 31 -15 69 -26 93 -26 87 1 110 20 541 449 401 400 412 409 495 450 123 59 193 74 320 68 67 -3 129 -12 170 -26 190 -61 352 -224 413 -416 18 -57 22 -93 22 -195 0 -139 -10 -182 -73 -305 -32 -64 -94 -129 -771 -807 l-736 -736 -95 -45 c-112 -54 -170 -67 -288 -67 -152 0 -289 51 -413 153 -36 30 -76 60 -89 67 -102 55 -232 12 -285 -93 -27 -55 -31 -99 -14 -162 21 -79 213 -233 378 -305 347 -151 760 -104 1060 120 99 73 1529 1512 1577 1585 88 137 141 272 169 432 65 375 -97 780 -408 1014 -106 80 -256 152 -382 185 -125 32 -322 41 -433 20z"/><path d="M2102 3326 c-177 -34 -333 -101 -461 -197 -107 -80 -1406 -1386 -1457 -1464 -153 -237 -212 -499 -169 -761 20 -127 49 -214 107 -326 185 -355 551 -578 949 -578 212 0 457 82 628 210 36 27 224 208 417 402 348 349 352 354 363 407 13 63 2 117 -36 173 -31 46 -111 88 -167 88 -85 -1 -113 -23 -481 -389 -373 -371 -392 -385 -545 -437 -83 -28 -281 -27 -375 3 -192 61 -355 223 -416 413 -14 41 -23 103 -26 170 -6 127 8 196 68 320 l41 85 677 676 676 677 85 41 c110 53 184 71 291 71 159 0 294 -49 420 -154 85 -71 123 -89 184 -89 89 0 159 46 196 128 22 46 24 92 7 146 -36 122 -307 304 -543 365 -124 32 -321 41 -433 20z"/></g></svg></button>
+			        	<button class="button-tr" id="button-tr1" onclick="translatetext();">П<br>е<br>р<br>е<br>к<br>л<br>а<br>с<br>т<br>и</button>
+			        	<button class="button-clear" onclick="clearTextareas(1);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path><path d="M5 6v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg></button>
+			        </div>
+			        <div class="taContainer">
+			            <textarea id="textareaOutput" class="input" readonly></textarea>
+			            <button class="button-copy" onclick="copy(1)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg></button>
+			        </div>
+			    </div>
+
+			    <hr>
+
+			    <div class="get-interwiki">
+			    	<div class="interwiki-intro">
+		    			<h2>Отримати інтервікі</h2>
+		    			<span>Введіть англійську назву(и) статті для перекладу (між [[ та ]]):</span>
+		    		</div>
+			        <div class="interwikiTaContainer">
+				        <textarea id="textareaInputInterwiki" class="input"></textarea>
+			    		<button class="button-tr" id="interwiki-button">П<br>е<br>р<br>е<br>к<br>л<br>а<br>с<br>т<br>и</button>
+				        <textarea id="textareaOutputInterwiki" class="input" readonly></textarea>
+			        </div>
+		    	</div>
+		    </div>
+
+		    -->
+
+
+		    <!-- ПЕРЕКЛАД ВНУТРІШНЬОІГРОВИХ НАЗВ -->
+
+
+		    <div class="translate-names tab tab-content" style="display: flex;" id="tab2">
+		    	<div class="translate-names-a">
+			    	<div class="template-selection">
+				    	<h2>In-Game names Translate</h2>
+			            <p>Choose version:</p>
+			            <label for="java">Java Edition: </label>
+				    	<select name="version-choice-java" id="version-choice-java"></select>
+			    	</div>
+		    	</div>
+				<div class="container">
+			        <textarea id="textareaInput2" class="input"></textarea>
+			        <div class="buttons-tr">
+			        	<button class="button-clear" onclick="getLink(2);"><svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet"><g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none"><path d="M3882 5106 c-158 -31 -296 -84 -416 -163 -50 -33 -195 -170 -499 -472 -396 -395 -429 -430 -443 -476 -30 -102 13 -202 107 -249 31 -15 69 -26 93 -26 87 1 110 20 541 449 401 400 412 409 495 450 123 59 193 74 320 68 67 -3 129 -12 170 -26 190 -61 352 -224 413 -416 18 -57 22 -93 22 -195 0 -139 -10 -182 -73 -305 -32 -64 -94 -129 -771 -807 l-736 -736 -95 -45 c-112 -54 -170 -67 -288 -67 -152 0 -289 51 -413 153 -36 30 -76 60 -89 67 -102 55 -232 12 -285 -93 -27 -55 -31 -99 -14 -162 21 -79 213 -233 378 -305 347 -151 760 -104 1060 120 99 73 1529 1512 1577 1585 88 137 141 272 169 432 65 375 -97 780 -408 1014 -106 80 -256 152 -382 185 -125 32 -322 41 -433 20z"/><path d="M2102 3326 c-177 -34 -333 -101 -461 -197 -107 -80 -1406 -1386 -1457 -1464 -153 -237 -212 -499 -169 -761 20 -127 49 -214 107 -326 185 -355 551 -578 949 -578 212 0 457 82 628 210 36 27 224 208 417 402 348 349 352 354 363 407 13 63 2 117 -36 173 -31 46 -111 88 -167 88 -85 -1 -113 -23 -481 -389 -373 -371 -392 -385 -545 -437 -83 -28 -281 -27 -375 3 -192 61 -355 223 -416 413 -14 41 -23 103 -26 170 -6 127 8 196 68 320 l41 85 677 676 676 677 85 41 c110 53 184 71 291 71 159 0 294 -49 420 -154 85 -71 123 -89 184 -89 89 0 159 46 196 128 22 46 24 92 7 146 -36 122 -307 304 -543 365 -124 32 -321 41 -433 20z"/></g></svg></button>
+			        	<button class="button-tr button-tr2" id="button-tr2" onclick="translateNames();">T<br>r<br>a<br>n<br>s<br>l<br>a<br>t<br>e</button>
+			        	<button class="button-clear" onclick="clearTextareas(2);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path><path d="M5 6v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg></button>
+			        </div>
+			        <div class="taContainer">
+			            <textarea id="textareaOutput2" class="input" readonly></textarea>
+			            <button class="button-copy" onclick="copy(2)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg></button>
+			        </div>
+			    </div>
+		    </div>
+
+		    <!-- ПОШУК СЕРЕД ВНУТРІШНЬОІГРОВИХ НАЗВ -->
+
+		    <div class="names-search-container tab tab-content" style="display: none;" id="tab3">
+			    <h2>In-Game names search</h2>
+		    	<div class="flex-dir-needed">
+		        	<div class="not-search-btn">
+	        			<div class="fdrow">
+	        				<div class="search-text-wrapper">
+					        	<span>Search Text:</span>
+					        	<div class="for-regex-container">
+						        	<span id="regex-slash" class="hidden">/</span>
+						        	<input id="text-to-search" type="text" class="search-text" name="search-text" placeholder="Enter your text…">
+						        	<span id="regex-slash2" class="hidden">/g</span>
+					        	</div>
+	        				</div>
+	        				<button class="button-clear" onclick="getLink(3);"><svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet"><g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none"><path d="M3882 5106 c-158 -31 -296 -84 -416 -163 -50 -33 -195 -170 -499 -472 -396 -395 -429 -430 -443 -476 -30 -102 13 -202 107 -249 31 -15 69 -26 93 -26 87 1 110 20 541 449 401 400 412 409 495 450 123 59 193 74 320 68 67 -3 129 -12 170 -26 190 -61 352 -224 413 -416 18 -57 22 -93 22 -195 0 -139 -10 -182 -73 -305 -32 -64 -94 -129 -771 -807 l-736 -736 -95 -45 c-112 -54 -170 -67 -288 -67 -152 0 -289 51 -413 153 -36 30 -76 60 -89 67 -102 55 -232 12 -285 -93 -27 -55 -31 -99 -14 -162 21 -79 213 -233 378 -305 347 -151 760 -104 1060 120 99 73 1529 1512 1577 1585 88 137 141 272 169 432 65 375 -97 780 -408 1014 -106 80 -256 152 -382 185 -125 32 -322 41 -433 20z"/><path d="M2102 3326 c-177 -34 -333 -101 -461 -197 -107 -80 -1406 -1386 -1457 -1464 -153 -237 -212 -499 -169 -761 20 -127 49 -214 107 -326 185 -355 551 -578 949 -578 212 0 457 82 628 210 36 27 224 208 417 402 348 349 352 354 363 407 13 63 2 117 -36 173 -31 46 -111 88 -167 88 -85 -1 -113 -23 -481 -389 -373 -371 -392 -385 -545 -437 -83 -28 -281 -27 -375 3 -192 61 -355 223 -416 413 -14 41 -23 103 -26 170 -6 127 8 196 68 320 l41 85 677 676 676 677 85 41 c110 53 184 71 291 71 159 0 294 -49 420 -154 85 -71 123 -89 184 -89 89 0 159 46 196 128 22 46 24 92 7 146 -36 122 -307 304 -543 365 -124 32 -321 41 -433 20z"/></g></svg></button>
+			        	</div>
+			        	<div class="global-search-container">
+				        	<input id="global-search" class="global-search" type="checkbox" checked>
+				        	<label for="global-search">Global search</label>
+			        	</div>
+			        	<div class="global-search-container">
+				        	<input id="regex-search" class="global-search" type="checkbox">
+				        	<label for="regex-search">Consider a string <a href="https://wikipedia.org/wiki/Regular Expression">regular expression</a></label>
+			        	</div>
+			        	<div class="global-search-container">
+				        	<input id="cs-search" class="global-search" type="checkbox" checked>
+				        	<label id="cs-search-lb" for="cs-search">Case sensitive</label>
+			        	</div>
+		        	</div>
+		        	<button class="search-button" onclick="searchMatches();">Search</button>
+		            <p>Choose version: </p>
+		            <br><label for="java2">Java Edition </label>
+			    	<select name="version-choice-java2" id="version-choice-java2"></select>
+	        	</div>
+	        	<div id="results-container"></div>
+		    </div>
+
+		    <!-- Порівняння файлів перекладу версій -->
+		    
+		    <div class="compare-container tab tab-content" id="tab4" style="display: none;">
+		    	<h2>Language files comparing</h2>
+		    	<div class="compare-wrapper">
+		    		<span>Choose first version: </span>
+		    		<select name="compare-version-1" id="compare-version-1"></select>
+		    	</div>
+		    	<div class="compare-wrapper">
+		    		<span>Choose second version: </span>
+		    		<select name="compare-version-2" id="compare-version-2"></select>
+		    	</div>
+		        <button class="generate-button" onclick="trackChanges();">Generate</button>
+		    	<div id="compare-results-container"></div>
+		    </div>
+		</div>
+	</main>
+
+    <footer class="footer">
+        <div>© 2025 Created by user <a href="https://minecraft.wiki/w/User:METROKOP228_UA">METROKOP228 UA</a> for the community of Polish <a href="https://minewiki.pl">Minecraft Wiki</a>. All rights reserved.</div>
+    </footer>
+
+    <script src="js/arrays_config.js"></script>
+    <script src="js/translation.js"></script>
+    <script src="js/main.js"></script></body>
+</html>
