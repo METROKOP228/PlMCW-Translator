@@ -754,7 +754,7 @@ label a:hover {
 .search-button {
     position: relative;
     bottom: 10px;
-    left: -165px;
+    left: -100px;
     background-color: var(--alt-color);
     color: var(--bg-color);
     border: none;

@@ -1,12 +1,12 @@
-<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
-  <polygon points="100,85 175,50 175,95 100,130" fill="#00428B" />
-  <polygon points="100,10 175,50 100,85 100,130 25,95 25,50" fill="#0261CA" />
-  <polygon points="100,130 175,95 175,140 100,180" fill="#B39700" />
-  <polygon points="100,130 25,95 25,140 100,180" fill="#FFD700" />
-  <polygon points="100,10 175,50 175,140 100,180 25,140 25,50" fill="transparent" stroke="black" stroke-width="10" />
+<svg class="header-img" width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="100,85 175,50 175,95 100,130" fill="#b5b5b5" />
+  <polygon points="100,10 175,50 100,85 100,130 25,95 25,50" fill="white" />
+  <polygon points="100,130 175,95 175,140 100,180" fill="#750000" />
+  <polygon points="100,130 25,95 25,140 100,180" fill="red" />
+  <polygon points="100,10 175,50 175,140 100,180 25,140 25,50" fill="transparent" stroke="black" stroke-width="10" class="svg-wiki" />
   <line x1="25" y1="50" x2="100" y2="85" stroke="black" stroke-width="10" />
   <line x1="175" y1="50" x2="100" y2="85" stroke="black" stroke-width="10" />
   <line x1="25" y1="95" x2="100" y2="130" stroke="black" stroke-width="10" />
   <line x1="175" y1="95" x2="100" y2="130" stroke="black" stroke-width="10" />
-  <line  x1="100" y1="85" x2="100" y2="180" stroke="black" stroke-width="10" />
+  <line x1="100" y1="85" x2="100" y2="180" stroke="black" stroke-width="10" />
 </svg>

@@ -60,7 +60,8 @@ var useRegex;
 var caseSensitive;
 
 function searchMatches() {
-    isGlobal = document.getElementById("global-search").checked;
+    //isGlobal = document.getElementById("global-search").checked;
+    isGlobal = true;
     useRegex = document.getElementById("regex-search").checked;
     caseSensitive = document.getElementById("cs-search").checked;
     console.log(`Global: ${isGlobal}, regex: ${useRegex}, case sensitive: ${caseSensitive}`);
@@ -223,7 +224,7 @@ function find_removed_lines(old_dict, new_dict) {
 }
 
 function insert_changes(new_lines, changed_lines, removed_lines, java) {
-    let compareText = '<br><br><span style="font-size: 25px;" >New strings:</span><br>';
+    let compareText = '<br><br><span style="font-size: 25px;" >Nowe ciągi:</span><br>';
 
     if (java) {
 
@@ -234,7 +235,7 @@ function insert_changes(new_lines, changed_lines, removed_lines, java) {
             <span class="changesHover" onclick="(() => copyText(\`${uk}\`))();">${uk}</span> 
             <small class="changesHover" onclick="(() => copyText(\`${key}\`))();">(${key})</small><br><hr>`;
         }
-        compareText += '<br><span style="font-size: 25px;">Changed strings:</span><br>';
+        compareText += '<br><span style="font-size: 25px;">Zmienione ciągi:</span><br>';
         const sortedChangedLines = Object.entries(changed_lines)
             .sort((a, b) => b[1].length - a[1].length);
 
@@ -242,7 +243,7 @@ function insert_changes(new_lines, changed_lines, removed_lines, java) {
             compareText += `<span class="arrow">${key}:</span> ${value}<br><hr>`;
         }
 
-        compareText += '<br><span style="font-size: 25px;">Deleted strings:</span><br>';
+        compareText += '<br><span style="font-size: 25px;">Usunięte ciągi:</span><br>';
 
 
         for (const key in removed_lines) {
@@ -260,7 +261,7 @@ function insert_changes(new_lines, changed_lines, removed_lines, java) {
             compareText += `<span class="changesHover" onclick="(() => copyText(\`${key}\`))();">${key}</span> <span class="arrow"> --&gt; </span> <span class="changesHover" onclick="(() => copyText(\`${value}\`))();">${value}</span><br><hr>`;
         }
 
-        compareText += '<br><span style="font-size: 25px;">Changed Strings:</span><br>';
+        compareText += '<br><span style="font-size: 25px;">Zmienione ciągi:</span><br>';
         const sortedChangedLines = Object.entries(changed_lines)
             .sort((a, b) => b[1].length - a[1].length);
 
@@ -268,7 +269,7 @@ function insert_changes(new_lines, changed_lines, removed_lines, java) {
             compareText += `<span class="arrow">${key}:</span> ${value}<br><hr>`;
         }
 
-        compareText += '<br><span style="font-size: 25px;">Deleted Strings:</span><br>';
+        compareText += '<br><span style="font-size: 25px;">Usunięte ciągi:</span><br>';
         const sortedRemovedLines = Object.entries(removed_lines)
             .sort((a, b) => b[1].length - a[1].length);
 
@@ -301,10 +302,10 @@ function trackChanges() {
 
         insert_changes(new_lines, changed_lines, removed_lines, true);
 
-        console.log("Зміни вставлено у код");
+        console.log("Zmiany są wprowadzane do kodu");
     } else {
         let compareDiv = document.createElement('div');
-        compareDiv.innerHTML = `<h3>Error: No versions chosen or bad internet connection</h3>`;
+        compareDiv.innerHTML = `<h3>Błąd: Brak wybranych wersji lub złe połączenie internetowe</h3>`;
         document.getElementById("compare-results-container").appendChild(compareDiv);
     }
 }
@@ -320,7 +321,7 @@ function syncCompareOptions() {
 
     // Додаємо опцію "Версія"
     const defaultOption = document.createElement('option');
-    defaultOption.text = "Версія";
+    defaultOption.text = "Wersja";
     defaultOption.value = ""; // Додаємо пусте значення
     version1Select.add(defaultOption);
     version2Select.add(defaultOption.cloneNode(true)); // Клон для другого select

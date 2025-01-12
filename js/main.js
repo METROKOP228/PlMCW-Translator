@@ -1022,12 +1022,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
 
         if (savedTAColor) {
-            editor.setOption('theme', savedTAColor);
+            // editor.setOption('theme', savedTAColor);
             editor2.setOption('theme', savedTAColor);
-            editorI.setOption('theme', savedTAColor);
-            output.setOption('theme', savedTAColor);
+            // editorI.setOption('theme', savedTAColor);
+            // output.setOption('theme', savedTAColor);
             output2.setOption('theme', savedTAColor);
-            outputI.setOption('theme', savedTAColor);
+            // outputI.setOption('theme', savedTAColor);
         }
         document.getElementById("local-storage-req").style.display = "block";
         if (localStorage.getItem("loadJava")) {
@@ -1071,12 +1071,12 @@ function presetChoice(
 }
 
 function setTheme(theme) {
-    editor.setOption('theme', theme);
+    // editor.setOption('theme', theme);
     editor2.setOption('theme', theme);
-    editorI.setOption('theme', theme);
-    output.setOption('theme', theme);
+    // editorI.setOption('theme', theme);
+    // output.setOption('theme', theme);
     output2.setOption('theme', theme);
-    outputI.setOption('theme', theme);
+    // outputI.setOption('theme', theme);
     if (localStorage.getItem('cookieConsent')) {
         localStorage.setItem('TATheme', theme);
     }
